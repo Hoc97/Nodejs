@@ -7,8 +7,15 @@ const morgan = require('morgan');
 const app = express();
 const port = 3000;
 
+const route = require('./routes');
+
 // với những file static sẽ cấu hình trong thư mục public này
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+//XMLHttpRequest, fetch, axios
 
 //HTTP logger
 // app.use(morgan('combined'));
@@ -20,16 +27,15 @@ app.engine('hbs', engine({
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources/views'));
 
-app.get('/', (req, res) => {
-    res.render('home');
-});
+//Route init
+route(app);
 
-app.get('/news', (req, res) => {
-    res.render('news');
-});
 
 
 //127.0.0.1 - localhost
+
+//Action ---> Dispatcher ---> Function handler
+
 app.listen(port, () => {
     console.log(`Example app listening on port http://localhost:${port}`);
 });
